@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>G.EDU – IELTS Academic Reading Test</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a1a2e;
+    --navy-light: #16213e;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --cream: #f8f5ef;
+    --cream-dark: #ede8df;
+    --teal: #008080;
+    --emerald: #2e8b57;
+    --red-soft: #fff0f0;
+    --red-border: #e53e3e;
+    --text-dark: #1a1a2e;
+    --text-mid: #4a4a6a;
+    --text-light: #8888aa;
+    --highlight: #ffff00;
+    --shadow: 0 4px 24px rgba(26,26,46,0.10);
+    --radius: 12px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; font-family: 'Be Vietnam Pro', sans-serif; background: var(--cream); color: var(--text-dark); overflow: hidden; }
+
+  /* ===== LOGIN SCREEN ===== */
+  #loginScreen {
+    position: fixed; inset: 0; z-index: 1000;
+    background: linear-gradient(135deg, var(--navy) 0%, #0f3460 60%, #1a1a2e 100%);
+    display: flex; align-items: center; justify-content: center;
+    overflow-y: auto;
+  }
+  .login-card {
+    background: var(--cream);
+    border-radius: 20px;
+    padding: 48px 44px 40px;
+    width: 100%; max-width: 480px;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.4);
+    margin: 24px;
+  }
+  .login-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem; font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-align: center;
+    margin-bottom: 4px;
+  }
+  .login-subtitle {
+    text-align: center; font-size: 0.85rem; color: var(--text-light);
+    font-weight: 500; letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .login-subtitle span { color: var(--teal); font-weight: 600; }
+  .warning-box {
+    background: var(--red-soft);
+    border: 1.5px solid var(--red-border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 28px;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: #c53030;
+  }
+  .warning-box strong { display: block; margin-bottom: 4px; font-size: 0.87rem; }
+  .form-group { margin-bottom: 18px; }
+  .form-group label {
+    display: block; font-size: 0.82rem; font-weight: 600;
+    color: var(--text-mid); margin-bottom: 6px; letter-spacing: 0.3px;
+  }
+  .form-group input {
+    width: 100%; padding: 12px 16px;
+    border: 1.5px solid var(--cream-dark);
+    border-radius: 8px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 0.95rem;
+    background: #fff;
+    color: var(--text-dark);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  .form-group input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
+  }
+  .btn-start {
+    width: 100%; padding: 14px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--navy);
+    border: none; border-radius: 10px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 1rem; font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s, opacity 0.2s;
+    letter-spacing: 0.5px;
+    margin-top: 8px;
+  }
+  .btn-start:disabled { opacity: 0.45; cursor: not-allowed; transform: none !important; }
+  .btn-start:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.35); }
+  .btn-start:not(:disabled):active { transform: translateY(0); }
+
+  /* ===== TEST SCREEN ===== */
+  /* test screen managed by tab CSS above */
+
+  /* Header */
+  .test-header {
+    background: var(--navy);
+    padding: 0 24px;
+    height: 62px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    z-index: 100;
+  }
+  .header-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.55rem; font-weight: 700;
+    color: var(--gold); letter-spacing: 2px;
+  }
+  .header-timer {
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .timer-label { font-size: 0.65rem; color: rgba(255,255,255,0.5); font-weight: 500; letter-spacing: 1px; text-transform: uppercase; }
+  .timer-display {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 1.5rem; font-weight: 700;
+    color: #fff;
+    letter-spacing: 2px;
+    transition: color 0.3s;
+  }
+  .timer-display.warning { color: #f6ad55; }
+  .timer-display.danger { color: #fc8181; animation: timerPulse 0.6s infinite alternate; }
+  @keyframes timerPulse { from { opacity: 1; } to { opacity: 0.4; } }
+  .header-student { text-align: right; }
+  .student-name { font-size: 0.88rem; font-weight: 600; color: #fff; }
+  .student-class { font-size: 0.72rem; color: rgba(255,255,255,0.5); }
+
+  /* Submit warning banner */
+  #submitWarning {
+    display: none;
+    background: #c53030;
+    color: #fff;
+    text-align: center;
+    padding: 9px;
+    font-size: 0.88rem; font-weight: 600;
+    letter-spacing: 0.3px;
+    animation: blink 0.7s infinite alternate;
+    flex-shrink: 0;
+    z-index: 50;
+  }
+  @keyframes blink { from { opacity: 1; } to { opacity: 0.3; } }
+
+  /* Body: 2 columns */
+  .test-body {
+    display: flex; flex: 1; overflow: hidden;
+    gap: 0;
+  }
+  .passage-col {
+    flex: 1.1; overflow-y: auto; background: #fff;
+    padding: 32px 36px;
+    border-right: 2px solid var(--cream-dark);
+    position: relative;
+    height: 100%;
+  }
+  .question-col {
+    flex: 0.9; overflow-y: auto; background: var(--cream);
+    padding: 28px 28px;
+    height: 100%;
+  }
+
+  /* Scrollbar */
+  .passage-col::-webkit-scrollbar, .question-col::-webkit-scrollbar { width: 6px; }
+  .passage-col::-webkit-scrollbar-track, .question-col::-webkit-scrollbar-track { background: transparent; }
+  .passage-col::-webkit-scrollbar-thumb { background: var(--cream-dark); border-radius: 3px; }
+  .question-col::-webkit-scrollbar-thumb { background: #d0cab8; border-radius: 3px; }
+
+  /* Passage content */
+  .passage-tag {
+    display: inline-block;
+    background: var(--navy); color: var(--gold);
+    font-size: 0.7rem; font-weight: 700;
+    padding: 3px 10px; border-radius: 4px;
+    letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .passage-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem; font-weight: 700;
+    color: var(--navy); margin-bottom: 20px;
+    line-height: 1.35;
+  }
+  .passage-col p {
+    font-size: 0.915rem; line-height: 1.85;
+    color: #2d2d4e; margin-bottom: 16px;
+    text-align: justify;
+  }
+  .passage-col p .para-letter {
+    font-weight: 700; color: var(--teal);
+    font-size: 0.95rem;
+  }
+  .passage-section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem; font-weight: 700;
+    color: var(--navy); margin: 24px 0 12px;
+    border-left: 3px solid var(--gold);
+    padding-left: 10px;
+  }
+  mark.hl { background: var(--highlight); border-radius: 2px; cursor: pointer; padding: 0 1px; }
+
+  /* Highlight toolbar */
+  #hlToolbar {
+    position: fixed; z-index: 500;
+    background: var(--navy);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.78rem; font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    display: none;
+    transition: opacity 0.15s;
+    user-select: none;
+  }
+  #hlToolbar:hover { background: var(--gold); color: var(--navy); }
+
+  /* Question section */
+  .q-section-header {
+    margin-bottom: 18px; padding-bottom: 10px;
+    border-bottom: 2px solid var(--cream-dark);
+  }
+  .q-section-tag {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--gold);
+    background: var(--navy); padding: 2px 8px; border-radius: 3px;
+    display: inline-block; margin-bottom: 6px;
+  }
+  .q-section-title { font-size: 0.88rem; font-weight: 600; color: var(--text-dark); margin-bottom: 4px; }
+  .q-section-inst { font-size: 0.78rem; color: var(--text-mid); line-height: 1.5; }
+  .q-section-inst strong { color: var(--navy); }
+
+  /* Table fill questions */
+  .fill-table {
+    width: 100%; border-collapse: collapse; font-size: 0.82rem;
+    margin-bottom: 20px;
+  }
+  .fill-table th {
+    background: var(--navy); color: var(--gold);
+    padding: 8px 10px; text-align: left; font-weight: 600;
+    font-size: 0.78rem;
+  }
+  .fill-table td {
+    border: 1px solid var(--cream-dark);
+    padding: 7px 10px; vertical-align: middle;
+    background: #fff;
+    line-height: 1.5;
+  }
+  .fill-table tr:nth-child(even) td { background: #fafaf8; }
+
+  /* Inline input */
+  .q-input {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 0.83rem;
+    border: none;
+    border-bottom: 1.5px solid var(--teal);
+    background: transparent;
+    outline: none;
+    min-width: 80px; max-width: 160px;
+    padding: 1px 4px;
+    color: var(--navy);
+    font-weight: 600;
+  }
+  .q-input:focus { border-bottom-color: var(--gold); }
+  .q-input:disabled { color: #888; border-bottom-color: #ccc; }
+
+  /* True/False/NG + MCQ questions */
+  .q-item {
+    margin-bottom: 18px;
+    padding: 14px 16px;
+    background: #fff;
+    border-radius: 10px;
+    border: 1.5px solid var(--cream-dark);
+    transition: border-color 0.2s;
+  }
+  .q-item:hover { border-color: #d0c8b0; }
+  .q-item-number {
+    font-size: 0.7rem; font-weight: 700; color: var(--gold);
+    letter-spacing: 0.5px; margin-bottom: 5px;
+    text-transform: uppercase;
+  }
+  .q-item-text { font-size: 0.855rem; line-height: 1.6; color: var(--text-dark); margin-bottom: 10px; }
+  .q-options { display: flex; flex-wrap: wrap; gap: 6px; }
+  .q-opt {
+    display: flex; align-items: center; gap: 6px;
+    padding: 5px 12px; border-radius: 6px;
+    border: 1.5px solid var(--cream-dark);
+    cursor: pointer; font-size: 0.8rem; font-weight: 500;
+    color: var(--text-mid); background: var(--cream);
+    transition: all 0.15s; user-select: none;
+  }
+  .q-opt input[type=radio] { display: none; }
+  .q-opt:hover { border-color: var(--gold); color: var(--navy); background: #fffbf0; }
+  .q-opt.selected { background: var(--navy); border-color: var(--navy); color: var(--gold); font-weight: 600; }
+  .q-opt:has(input:disabled) { cursor: not-allowed; opacity: 0.7; }
+
+  /* Section divider */
+  .q-divider { height: 1px; background: var(--cream-dark); margin: 24px 0; }
+
+  /* MCQ options A/B/C/D */
+  .q-mcq-options { display: flex; flex-direction: column; gap: 6px; }
+  .q-mcq-opt {
+    display: flex; align-items: flex-start; gap: 9px;
+    padding: 8px 12px; border-radius: 8px;
+    border: 1.5px solid var(--cream-dark);
+    cursor: pointer; font-size: 0.82rem;
+    color: var(--text-dark); background: var(--cream);
+    transition: all 0.15s; user-select: none;
+    line-height: 1.5;
+  }
+  .q-mcq-opt input[type=radio] { display: none; }
+  .q-mcq-opt .opt-letter {
+    font-weight: 700; color: var(--text-light); min-width: 16px; flex-shrink: 0;
+  }
+  .q-mcq-opt:hover { border-color: var(--gold); background: #fffbf0; }
+  .q-mcq-opt.selected { background: var(--navy); border-color: var(--navy); color: var(--gold); }
+  .q-mcq-opt.selected .opt-letter { color: var(--gold-light); }
+
+  /* Sentence completion */
+  .q-sent { margin-bottom: 14px; font-size: 0.855rem; line-height: 1.9; }
+  .q-num { font-weight: 700; color: var(--navy); margin-right: 5px; }
+
+  /* ===== RESULT SCREEN ===== */
+  #resultScreen {
+    display: none; position: fixed; inset: 0; z-index: 2000;
+    background: linear-gradient(135deg, var(--navy) 0%, #0f3460 100%);
+    align-items: center; justify-content: center;
+  }
+  #resultScreen.active { display: flex; }
+  .result-wrap {
+    display: flex; align-items: center; justify-content: center;
+    padding: 40px 24px; width: 100%;
+  }
+  .result-card {
+    text-align: center;
+    padding: 48px 44px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 24px;
+    max-width: 440px; width: 100%;
+    backdrop-filter: blur(10px);
+  }
+  .result-emoji { font-size: 2.8rem; margin-bottom: 10px; }
+  .result-congrats { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--gold); margin-bottom: 6px; }
+  .result-name { font-size: 1rem; color: rgba(255,255,255,0.85); margin-bottom: 24px; font-weight: 500; }
+  .result-score-box { background: rgba(255,255,255,0.08); border-radius: 14px; padding: 22px; margin-bottom: 16px; }
+  .result-score-label { font-size: 0.72rem; color: rgba(255,255,255,0.45); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+  .result-score-num { font-size: 3rem; font-weight: 700; color: #fff; line-height: 1; }
+  .result-score-den { font-size: 1.1rem; color: rgba(255,255,255,0.35); }
+  .result-band-box { display: inline-block; background: var(--gold); color: var(--navy); padding: 9px 24px; border-radius: 50px; font-size: 1rem; font-weight: 700; margin-top: 6px; }
+  .result-note { font-size: 0.75rem; color: rgba(255,255,255,0.3); margin-top: 20px; line-height: 1.6; }
+
+  /* ===== HEADING DROPDOWN ===== */
+  .heading-select {
+    width: 100%; margin-top: 10px;
+    padding: 9px 12px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 0.83rem; font-weight: 500;
+    color: var(--navy);
+    background: #fff;
+    border: 1.5px solid var(--cream-dark);
+    border-radius: 8px;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    appearance: auto;
+  }
+  .heading-select:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
+  }
+  .heading-select:not([value=""]) { border-color: var(--navy); }
+
+  /* Submit overlay */
+  #submitOverlay {
+    display: none; position: fixed; inset: 0; z-index: 1500;
+    background: rgba(26,26,46,0.85);
+    align-items: center; justify-content: center;
+    flex-direction: column; gap: 16px;
+  }
+  #submitOverlay.active { display: flex; }
+  .submit-spinner {
+    width: 48px; height: 48px;
+    border: 4px solid rgba(201,168,76,0.2);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .submit-text { color: #fff; font-size: 1rem; font-weight: 600; }
+
+  .btn-submit-header {
+    background: var(--gold);
+    color: var(--navy);
+    border: none; border-radius: 8px;
+    padding: 8px 20px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 0.88rem; font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    white-space: nowrap; flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(201,168,76,0.3);
+  }
+  .btn-submit-header:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .btn-submit-header:active { transform: translateY(0); }
+
+  .btn-back-result {
+    background: transparent;
+    color: rgba(255,255,255,0.7);
+    border: 1px solid rgba(255,255,255,0.25); border-radius: 8px;
+    padding: 7px 14px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 0.82rem; font-weight: 600;
+    cursor: pointer; transition: all 0.15s;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .btn-back-result:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+  .btn-review {
+    width: 100%; margin-top: 16px; padding: 11px;
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.75);
+    border: 1px solid rgba(255,255,255,0.15); border-radius: 10px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 0.88rem; font-weight: 600;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .btn-review:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
+  /* Answer badges shown in review mode */
+  .ans-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 10px; border-radius: 5px;
+    font-size: 0.78rem; font-weight: 700;
+    margin-top: 8px; pointer-events: none;
+  }
+  .ans-badge.correct { background: rgba(104,211,145,0.15); color: #276749; border: 1px solid rgba(104,211,145,0.4); }
+  .ans-badge.wrong   { background: rgba(252,129,129,0.15); color: #c53030; border: 1px solid rgba(252,129,129,0.4); }
+  .ans-badge.blank   { background: rgba(0,0,0,0.06); color: #888; border: 1px solid rgba(0,0,0,0.1); }
+    background: var(--gold);
+    color: var(--navy);
+    border: none; border-radius: 8px;
+    padding: 8px 18px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 0.85rem; font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .btn-submit-header:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .btn-submit-header:active { transform: translateY(0); }
+
+  /* ===== TABS ===== */
+  .tab-bar {
+    display: flex;
+    background: var(--navy);
+    border-bottom: 2px solid rgba(201,168,76,0.25);
+    flex-shrink: 0;
+    padding: 0 16px;
+  }
+  .tab-btn {
+    padding: 11px 20px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 0.78rem; font-weight: 600;
+    color: rgba(255,255,255,0.42);
+    background: transparent; border: none;
+    cursor: pointer; position: relative;
+    letter-spacing: 0.3px;
+    transition: color 0.2s;
+    white-space: nowrap;
+  }
+  .tab-btn::after {
+    content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 2px;
+    background: var(--gold); transform: scaleX(0); transition: transform 0.2s;
+    border-radius: 2px 2px 0 0;
+  }
+  .tab-btn.active { color: var(--gold); }
+  .tab-btn.active::after { transform: scaleX(1); }
+  .tab-btn:hover:not(.active) { color: rgba(255,255,255,0.7); }
+  /* Tab pane layout */
+  .tab-pane { display: none; flex: 1; overflow: hidden; min-height: 0; width: 100%; }
+  .tab-pane.active { display: flex; }
+  /* Make testScreen a column flex */
+  #testScreen { display: none; flex-direction: column; height: 100vh; overflow: hidden; }
+  #testScreen.active { display: flex; }
+
+  /* ===== FLAG SYSTEM ===== */
+  .q-item { position: relative; }
+  .flag-btn {
+    position: absolute; top: 10px; right: 10px;
+    background: none; border: none;
+    cursor: pointer; font-size: 0.95rem;
+    opacity: 0.25; transition: opacity 0.15s, transform 0.15s;
+    padding: 2px 4px; line-height: 1;
+    z-index: 2;
+  }
+  .flag-btn:hover { opacity: 0.7; transform: scale(1.2); }
+  .flag-btn.flagged { opacity: 1; filter: none; }
+  .q-item.flagged { border-color: #e07a30 !important; }
+  .q-item.flagged.answered { border-color: #e07a30 !important; }
+
+  /* q-sent flag wrapper */
+  .q-sent-wrap { position: relative; display: flex; align-items: flex-start; gap: 6px; margin-bottom: 14px; }
+  .q-sent-wrap .q-sent { margin-bottom: 0; flex: 1; }
+  .q-sent-wrap .flag-btn { position: static; font-size: 0.85rem; margin-top: 2px; flex-shrink: 0; }
+
+  /* Sidebar strip */
+  #flagSidebar {
+    width: 52px; background: var(--navy);
+    display: flex; flex-direction: column; align-items: center;
+    padding: 10px 0; gap: 4px;
+    overflow-y: auto; flex-shrink: 0;
+    border-left: 1px solid rgba(255,255,255,0.06);
+  }
+  #flagSidebar::-webkit-scrollbar { width: 3px; }
+  #flagSidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); }
+
+  .sb-num {
+    width: 32px; height: 26px;
+    border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.65rem; font-weight: 700;
+    color: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.05);
+    cursor: pointer; position: relative;
+    transition: background 0.15s, color 0.15s;
+    user-select: none;
+  }
+  .sb-num:hover { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.7); }
+  .sb-num.answered { background: rgba(201,168,76,0.2); color: var(--gold); }
+  .sb-num.flagged { background: rgba(224,122,48,0.18); color: #e07a30; outline: 1.5px solid #e07a30; }
+  .sb-num.flagged.answered { background: rgba(201,168,76,0.25); color: var(--gold); outline: 1.5px solid #e07a30; }
+  .sb-num.flagged.answered::after {
+    content: ''; position: absolute; top: -3px; right: -3px;
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #e07a30; border: 1.5px solid var(--navy);
+  }
+  .sb-divider {
+    width: 28px; height: 1px;
+    background: rgba(255,255,255,0.08);
+    margin: 3px 0;
+  }
+  .sb-flag-btn {
+    width: 32px; height: 32px; border-radius: 6px;
+    background: rgba(224,122,48,0.15); border: 1px solid rgba(224,122,48,0.3);
+    color: #e07a30; font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: background 0.15s;
+    margin-top: 4px;
+  }
+  .sb-flag-btn:hover { background: rgba(224,122,48,0.3); }
+
+  /* Flag panel */
+  #flagPanel {
+    display: none; position: fixed; inset: 0; z-index: 800;
+    background: rgba(26,26,46,0.6); backdrop-filter: blur(4px);
+    align-items: center; justify-content: center;
+  }
+  #flagPanel.open { display: flex; }
+  .flag-panel-box {
+    background: var(--cream); border-radius: 16px;
+    width: 380px; max-width: 95vw; max-height: 75vh;
+    display: flex; flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    overflow: hidden;
+  }
+  .flag-panel-header {
+    background: var(--navy); color: var(--gold);
+    padding: 16px 20px; display: flex; align-items: center; justify-content: space-between;
+    font-family: 'Be Vietnam Pro', sans-serif; font-weight: 700; font-size: 0.9rem;
+  }
+  .flag-panel-close {
+    background: none; border: none; color: rgba(255,255,255,0.5);
+    cursor: pointer; font-size: 1.2rem; line-height: 1;
+    transition: color 0.15s;
+  }
+  .flag-panel-close:hover { color: #fff; }
+  .flag-panel-body { overflow-y: auto; padding: 16px; flex: 1; }
+  .flag-panel-empty { color: var(--text-light); font-size: 0.85rem; text-align: center; padding: 24px 0; }
+  .flag-panel-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px; border-radius: 8px; cursor: pointer;
+    border: 1.5px solid var(--cream-dark); margin-bottom: 8px;
+    background: #fff; transition: border-color 0.15s, background 0.15s;
+  }
+  .flag-panel-item:hover { border-color: #e07a30; background: #fff8f4; }
+  .flag-panel-item .fp-num {
+    width: 28px; height: 28px; border-radius: 6px;
+    background: rgba(224,122,48,0.12); color: #e07a30;
+    font-size: 0.75rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .flag-panel-item .fp-num.answered { background: rgba(201,168,76,0.15); color: var(--gold); }
+  .flag-panel-item .fp-text { font-size: 0.8rem; color: var(--text-mid); line-height: 1.4; flex: 1; }
+  .flag-panel-item .fp-status { font-size: 0.7rem; font-weight: 600; color: #aaa; flex-shrink: 0; }
+  .flag-panel-item .fp-status.done { color: var(--emerald); }
+
+  @media (max-width: 768px) {
+    #flagSidebar { width: 38px; }
+    .sb-num { width: 26px; height: 22px; font-size: 0.58rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== LOGIN ===== -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">G.EDU</div>
+    <div class="login-subtitle">IELTS Academic Reading — <span>Reading Test 3</span></div>
+    <div class="warning-box">
+      <strong>⚠ Lưu ý quan trọng:</strong>
+      Khi đồng hồ còn 30 giây, hãy bấm nút <strong>Nộp bài</strong> để đảm bảo kết quả làm bài được lưu thành công về hệ thống.
+    </div>
+    <div class="form-group">
+      <label>Họ và tên đầy đủ</label>
+      <input type="text" id="inputName" placeholder="Họ và tên học sinh" autocomplete="off">
+    </div>
+    <div class="form-group">
+      <label>Mã lớp (Class ID)</label>
+      <input type="text" id="inputClass" placeholder="Lớp học" autocomplete="off">
+    </div>
+    <button class="btn-start" id="btnStart" disabled>🚀 Bắt đầu làm bài</button>
+  </div>
+</div>
+
+<!-- ===== TEST SCREEN ===== -->
+<div id="testScreen">
+  <header class="test-header">
+    <div class="header-logo">G.EDU</div>
+    <div class="header-timer">
+      <div class="timer-label">Thời gian còn lại</div>
+      <div class="timer-display" id="timerDisplay">60:00</div>
+    </div>
+    <div class="header-student">
+      <div class="student-name" id="headerName">—</div>
+      <div class="student-class" id="headerClass">—</div>
+    </div>
+    <button class="btn-submit-header" id="btnSubmitHeader" onclick="confirmSubmit()">Nộp bài</button>
+    <button class="btn-back-result" id="btnBackResult" onclick="exitReviewMode()" style="display:none">← Về kết quả</button>
+  </header>
+
+  <!-- CONFIRM SUBMIT MODAL -->
+  <div id="confirmModal" style="display:none;position:fixed;inset:0;z-index:1800;background:rgba(26,26,46,0.7);backdrop-filter:blur(4px);align-items:center;justify-content:center;">
+    <div style="background:var(--cream);border-radius:16px;padding:32px 28px;max-width:360px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+      <div style="font-size:2rem;margin-bottom:12px;">📋</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--navy);margin-bottom:8px;">Xác nhận nộp bài?</div>
+      <div style="font-size:0.84rem;color:var(--text-mid);margin-bottom:24px;line-height:1.6;">Sau khi nộp bài, bạn sẽ không thể chỉnh sửa đáp án nữa.</div>
+      <div style="display:flex;gap:10px;justify-content:center;">
+        <button onclick="closeConfirm()" style="flex:1;padding:10px;border-radius:8px;border:1.5px solid var(--cream-dark);background:var(--cream);font-family:'Be Vietnam Pro',sans-serif;font-size:0.88rem;font-weight:600;color:var(--text-mid);cursor:pointer;">← Làm tiếp</button>
+        <button onclick="closeConfirm();submitData()" style="flex:1;padding:10px;border-radius:8px;border:none;background:var(--gold);font-family:'Be Vietnam Pro',sans-serif;font-size:0.88rem;font-weight:700;color:var(--navy);cursor:pointer;">✓ Nộp bài</button>
+      </div>
+    </div>
+  </div>
+  <div id="reviewModeBanner" style="display:none;background:#1a6b3a;color:#fff;text-align:center;padding:8px;font-size:0.82rem;font-weight:600;flex-shrink:0;">
+    👁 Chế độ xem lại — Bài đã nộp, không thể chỉnh sửa
+  </div>
+  <div id="submitWarning">⏳ Còn 30 giây — Hãy bấm nút <strong style="text-decoration:underline;cursor:pointer;" onclick="submitData()">Nộp bài</strong> ngay để đảm bảo kết quả được lưu!</div>
+  <!-- FLAG PANEL MODAL -->
+  <div id="flagPanel">
+    <div class="flag-panel-box">
+      <div class="flag-panel-header">
+        🚩 Câu đã đánh dấu
+        <button class="flag-panel-close" onclick="closeFlagPanel()">✕</button>
+      </div>
+      <div class="flag-panel-body" id="flagPanelBody">
+        <div class="flag-panel-empty">Chưa có câu nào được đánh dấu.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIDEBAR + TABS + CONTENT WRAPPER -->
+  <div style="display:flex;flex:1;overflow:hidden;min-height:0;">
+    <!-- FLAG SIDEBAR -->
+    <div id="flagSidebar">
+      <button class="sb-flag-btn" onclick="openFlagPanel()" title="Xem câu đã đánh dấu">🚩</button>
+      <div class="sb-divider"></div>
+      <div id="sbNums"></div>
+    </div>
+    <!-- TAB CONTENT AREA -->
+    <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0;" id="tabContentWrap">
+      <div class="tab-bar" id="tabBar">
+        <button class="tab-btn active" onclick="switchTab(1)">📄 Passage 1 &nbsp;<span style="opacity:0.5;font-weight:400">Q1–13</span></button>
+        <button class="tab-btn" onclick="switchTab(2)">📄 Passage 2 &nbsp;<span style="opacity:0.5;font-weight:400">Q14–26</span></button>
+        <button class="tab-btn" onclick="switchTab(3)">📄 Passage 3 &nbsp;<span style="opacity:0.5;font-weight:400">Q27–40</span></button>
+      </div>
+  <div class="tab-pane active" id="tab1">
+    <div class="passage-col" id="passageCol">
+      <div class="passage-tag">Passage 1</div>
+      <div class="passage-title">THE DEVELOPMENT OF PLASTICS</div>
+      <p>The first plastics were developed as a substitute for natural rubber. Chemically, rubber is a polymer—a compound containing large molecules that are formed by the bonding of many smaller, simpler units, repeated over and over again. The same bonding principle—polymerization—is the basis of the creation of a huge range of plastics by the chemical industry.</p>
+      <p>The first plastic was developed as a result of a competition in the USA. In the 1860s, $10,000 was offered to anybody who could replace ivory—supplies of which were declining—with something equally good as a material for making billiard balls. The prize was won by John Wesley Hyatt, with a material called celluloid. Celluloid was made by dissolving cellulose, a carbohydrate obtained from plants, in a solution of camphor dissolved in ethanol. This new material rapidly found other applications in the manufacture of everyday products such as knife handles and detachable collars and cuffs. But perhaps the best-known celluloid product was photographic film, without which the film industry could never have taken off at the end of the 19th century.</p>
+      <p>Celluloid can be repeatedly softened and reshaped by heat, and is known as a thermoplastic. In 1907, Leo Baekeland (1863–1944), a Belgian chemist working in the USA, invented a different kind of plastic, by causing phenol and formaldehyde to react together. Baekeland called it Bakelite, and it was the first of the thermosets—plastic that can be cast and moulded while hot, but cannot be softened by heat and reshaped once they have set. Bakelite was a good insulator, and was resistant to water and acid. With these properties it was soon being used in the manufacture of electrical switches as well as a variety of domestic items.</p>
+      <p>As the century went on, the range of newly developed plastic increased. Chemists began looking for other small molecules that could be strung together to make polymers. In the 1930s, chemists in Britain discovered that the gas ethylene would polymerize under heat and pressure to form a thermoplastic they called polythene. Polypropylene followed in the 1950s. Both are used to make bottles, pipes and plastic bags. A small change in the starting material—replacing a hydrogen atom in ethylene with a chlorine atom—produced rigid PVC (polyvinyl chloride), a fireproof plastic suitable for drains and gutters. By adding certain chemicals, a soft form of PVC can be produced, suitable as a substitute for rubber in items such as waterproof clothing. A closely related plastic is Teflon or PTFE (polytetrafluoroethylene). It produces very little friction, making it ideal for products such as non-stick frying pans.</p>
+      <p>Polystyrene, a hard, clear material like glass, was developed during the 1930s in Germany, and its applications included food containers and toys. Expanded polystyrene is rigid and is widely used in packaging and insulation. Polyurethane, developed in the same country, was commonly produced as a foam which was very useful in the production of insulating materials.</p>
+      <p>In the 1930s, the first of the man-made fibres was created—nylon. Its inventor was a chemist called Wallace Carothers (1896–1937), who worked for the Du Pont company in the USA. He found that under the right conditions two particular chemicals would form a polymer that could be pumped out through holes and then stretched to form long glossy threads that could be woven like silk. Its first use was to make parachutes for the US armed forces in World War II. In the postwar years, it completely replaced silk in the manufacture of stockings.</p>
+      <p>Many other synthetic fibres joined nylon, including Orion, Acrilan, and Terylene. Today most garments are made of a blend of natural fibres, such as cotton and wool, and man-made fibres that make fabrics easier to look after.</p>
+      <p>Despite its enormous usefulness, plastic has its drawbacks. In fact one of its great strengths—its indestructibility—is its greatest disadvantage. Beaches all over the world, even on the remotest island, are littered with plastic bottles that nothing can destroy. Nor is it very easy to recycle plastics, as different types of plastic are often found in the same items and call for different treatments.</p>
+      <p>Plastics can be made biodegradable by incorporating into their structure a material such as starch, which is attacked by bacteria and causes the plastic to fall apart. Other materials can be incorporated that gradually decay in sunlight—although bottles made of such materials have to be stored in the dark, to ensure they do not disintegrate before they have been used.</p>
+    </div>
+    <div class="question-col">
+      <div class="q-section-header">
+        <div class="q-section-tag">Questions 1–7</div>
+        <div class="q-section-title">Complete the table below.</div>
+        <div class="q-section-inst">Write <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</div>
+      </div>
+      <table class="fill-table">
+        <thead><tr><th>Name</th><th>Date</th><th>Country</th><th>Properties</th><th>Common uses</th></tr></thead>
+        <tbody>
+          <tr><td>Celluloid</td><td>1860s</td><td>USA</td><td>Can be softened and reshaped by heat</td><td>billiard balls; cutlery; clothing; <input class="q-input" data-q="1" placeholder="1" size="12"></td></tr>
+          <tr><td><input class="q-input" data-q="2" placeholder="2" size="10"></td><td>1907</td><td>USA</td><td>Can't be softened after setting; good insulator; resistant to water and acid</td><td><input class="q-input" data-q="3" placeholder="3" size="12">; Household objects</td></tr>
+          <tr><td>Polythene</td><td>1930s</td><td><input class="q-input" data-q="4" placeholder="4" size="8"></td><td>Can be softened and reshaped by heat</td><td>bottles; pipes; plastic bags</td></tr>
+          <tr><td>Polypropylene</td><td>1950s</td><td>—</td><td>—</td><td>bottles; pipes; plastic bags</td></tr>
+          <tr><td>Rigid PVC</td><td>—</td><td>—</td><td>Is <input class="q-input" data-q="5" placeholder="5" size="10"></td><td>external piping</td></tr>
+          <tr><td>Soft PVC</td><td>—</td><td>—</td><td>—</td><td>outdoor clothing</td></tr>
+          <tr><td>Polystyrene</td><td>1930s</td><td>Germany</td><td>Resembles <input class="q-input" data-q="6" placeholder="6" size="8"></td><td>food containers; toys</td></tr>
+          <tr><td>Polyurethane</td><td>—</td><td>Germany</td><td>Usually manufactured as a <input class="q-input" data-q="7" placeholder="7" size="8"></td><td>insulation</td></tr>
+        </tbody>
+      </table>
+      <div class="q-section-header">
+        <div class="q-section-tag">Questions 8–13</div>
+        <div class="q-section-title">True / False / Not Given</div>
+        <div class="q-section-inst">Choose <strong>TRUE</strong> if the statement agrees, <strong>FALSE</strong> if it contradicts, or <strong>NOT GIVEN</strong> if there is no information.</div>
+      </div>
+      <div id="tfng-container"></div>
+      <div style="height:40px;"></div>
+    </div>
+  </div>
+
+  <!-- ===== TAB 2 ===== -->
+  <div class="tab-pane" id="tab2">
+    <div class="passage-col">
+      <div class="passage-tag">Passage 2</div>
+      <div class="passage-title">LEAN PRODUCTION INNOVATION IN MANUFACTURING SYSTEMS</div>
+      <p>After the First World War, car makers Henry Ford and Arthur Sloan of General Motors moved world manufacturing from centuries of craft production into the age of mass production. Largely as a result of this, the United States soon dominated the world economy. After the Second World War, and approximately a hundred years after Japan opened up to the modern world, Eiji Toyoda and Taiichi Ohno pioneered the concept of lean production at the Toyota car company. And now, although superimposing the method on existing mass production systems causes pain and upheaval, manufacturers around the world are trying to embrace this innovative system.</p>
+      <p>Perhaps the best way to describe lean production is to compare it with the two other major manufacturing systems: craft production and mass production. The craft producer uses highly skilled workers and simple but flexible tools to make exactly what the customer asks for — one item at a time. A present day example of this method is the customised production of a few exotic sports cars. The concept of craft production remains very popular, but the problem with it is obvious. Goods produced by the craft method — as cars once exclusively were — cost too much for most of us to afford. So at the beginning of the twentieth century, mass production was developed as an alternative method. The mass producer uses narrowly skilled professionals to design products which are then made by unskilled or semi-skilled workers, using expensive, single-purpose machines. These churn out standardised products in very high volumes. Because the machinery costs so much, and is so intolerant of disruption, the mass producer keeps standard designs in production for as long as possible. The result is that the customer gets lower costs, but at the expense of variety, and by means of work methods which most employees find boring and dispiriting. By contrast, the lean production system combines the advantages of craft and mass production, while avoiding the high cost of the former and the rigidity of the latter. Towards this end, companies appoint teams of multi-skilled workers to all levels of the organisation, and use highly flexible and increasingly automated machines to produce goods in enormous volume and variety.</p>
+      <p>Lean production is so called because, compared with mass production, it uses less of everything — half the human effort in the factory, half the manufacturing space, half the investment in tools, and half the engineering hours to develop the new product. It also results in far fewer defects.</p>
+      <p>Perhaps the most striking contrast between mass and lean production systems lies in their production standards. Mass producers set a limited goal for themselves: 'good enough', which translates into an acceptable number of defects, a maximum acceptable number of inventories, and a narrow range of standardised products. Lean producers, on the other hand, are unwilling to compromise standards in any of these areas.</p>
+      <p>Although cost reduction is the primary objective of the lean production system, it must meet three other intermediate objectives in order to achieve this: quantity control, quality assurance and respect for humanity. Firstly, the system must be able to adapt to daily and monthly fluctuations in demand. Secondly, each separate process must supply only good units to the subsequent process. Thirdly, in as far as the system uses human resources to attain its cost objectives, respect for human needs must be cultivated. It should be emphasised that none of these three objectives can be achieved separately.</p>
+      <p>The continuous flow of lean manufacturing production relies on two practical mechanisms: just-in-time and autonamation. Just-in-time means, for example, that in the process of assembling the parts to build a car, components from the preceding process should arrive at the next part of the line at exactly the right time and in the correct quantities. If just-in-time is fully realised throughout the company, then superfluous inventories are completely eliminated from the factory, making stores or warehouses unnecessary. However, relying solely on a central planning approach to control schedules for all stages of the production process simultaneously is very difficult in the case of cars, which consist of thousands of parts. So the lean system looks at the production flow in reverse; in other words, employees go to the preceding process to withdraw the necessary quantity of units at the appropriate time. The preceding process must produce only sufficient quantities of units to replace those that have been withdrawn, and in turn withdraws the requisite number of components from the process that precedes it.</p>
+      <p>Autonamation is the automatic checking for abnormalities in the production process. In order to realise just-in-time perfectly, only units which are in perfect condition must be allowed to flow to the next process, and this flow must be regular and uninterrupted. In other words, quality control must coexist with just-in-time procedures throughout the system. Autonamation involves building in a mechanism to prevent the multiplication of defects in machines or product lines. For example, in Toyota factories almost all the machines have been fitted with stopping devices, and the concept of autonamation has been extended to manual production lines. If something abnormal happens there, the worker pushes a button to stop the whole line, and lights, which are hung so high in the factory that they are visible to everyone, indicate the position of the problem.</p>
+    </div>
+    <div class="question-col">
+      <div class="q-section-header">
+        <div class="q-section-tag">Questions 14–20</div>
+        <div class="q-section-title">Choose the correct heading for each paragraph (i–x).</div>
+        <div class="q-section-inst">
+          <strong>List of Headings:</strong><br>
+          i. Global resistance to lean manufacturing &nbsp;|&nbsp; ii. The historical context &nbsp;|&nbsp; iii. Procedures for controlling quality &nbsp;|&nbsp; iv. The pros and cons of different production systems &nbsp;|&nbsp; v. The impact on profits &nbsp;|&nbsp; vi. Procedures for controlling supply &nbsp;|&nbsp; vii. The origin of the term &nbsp;|&nbsp; viii. A crucial difference in levels of quality &nbsp;|&nbsp; ix. Working conditions &nbsp;|&nbsp; x. Interdependent strategies for controlling expenditure
+        </div>
+      </div>
+      <div id="heading-container"></div>
+      <div class="q-section-header" style="margin-top:20px;">
+        <div class="q-section-tag">Questions 21–26</div>
+        <div class="q-section-title">Complete the sentences below.</div>
+        <div class="q-section-inst">Write <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.</div>
+      </div>
+      <div class="q-sent"><span class="q-num">21.</span> A small number of unusual cars are still produced by the <input class="q-input" data-q="21" placeholder="21" size="10"> method.</div>
+      <div class="q-sent"><span class="q-num">22.</span> Lean production requires staff who are <input class="q-input" data-q="22" placeholder="22" size="14">.</div>
+      <div class="q-sent"><span class="q-num">23.</span> Lean production employs fewer people, and uses less <input class="q-input" data-q="23" placeholder="23" size="16">, equipment and time.</div>
+      <div class="q-sent"><span class="q-num">24.</span> Storage facilities are not needed if a procedure known as <input class="q-input" data-q="24" placeholder="24" size="12"> is implemented in the lean production method.</div>
+      <div class="q-sent"><span class="q-num">25.</span> Autonamation is a procedure for spotting any <input class="q-input" data-q="25" placeholder="25" size="14"> in the products on a production line.</div>
+      <div class="q-sent"><span class="q-num">26.</span> At Toyota factories, <input class="q-input" data-q="26" placeholder="26" size="10"> are suspended above manual production lines in order to show where production has to be halted.</div>
+      <div style="height:40px;"></div>
+    </div>
+  </div>
+
+  <!-- ===== TAB 3 ===== -->
+  <div class="tab-pane" id="tab3">
+    <div class="passage-col">
+      <div class="passage-tag">Passage 3</div>
+      <div class="passage-title">HOW DOES WATCHING SPORT INFLUENCE THE BRAIN?</div>
+      <p><span class="para-letter">A</span> &nbsp;During the epoch when the poet Homer unveiled his grand epic, the ancient Greeks initiated a festival where men contended in a race of roughly 200 metres. The victor would be rewarded with a symbolic olive branch. This event, known as the Olympics, has transcended its humble origins to embody the human quest for progress. The captivating nature of these games raises an intriguing question: what exactly draws us in as spectators? Is it the thrill of competition, the beauty of human movement, or something happening within our brains?</p>
+      <p><span class="para-letter">B</span> &nbsp;In 1996, three Italian neuroscientists—Giacomo Rizzolatti, Leonardo Fogassi, and Vittorio Gallese—conducted research on the premotor cortex of monkeys and made a groundbreaking discovery. They revealed a cluster of cells that act as a repository for motor actions, similar to 'grammar of movement'. These cellular networks represent the 'sentences' of full-body motions that our brains meticulously retain and refine. Take the art of swinging a golf club as an example. For those who only watch the Masters Tournament on television, playing golf may appear deceptively effortless. However, for novices, smoothly manoeuvring the asymmetrical metal club presents a nearly impossible challenge. This is because novices rely on conscious effort, utilising brain regions adjacent to the premotor cortex. Experts, by contrast, instinctively execute perfectly balanced movements, as their actions are deeply ingrained and intertwined with neurons in the premotor cortex. Their swing occurs with the serenity of a refined autopilot, requiring no conscious control. This neural distinction between novices and experts provides insight into how long-term training can physically reshape the brain.</p>
+      <p><span class="para-letter">C</span> &nbsp;These neurons in the premotor cortex not only help explain why some athletes seem to have exceptional skills, but they also exhibit a wondrous characteristic that prompted Rizzolatti, Fogassi, and Gallese to bestow upon them the exalted label of 'mirror neuron'. They point out that mirror neurons are activated when a primate performs a particular action, such as grasping or holding an object, or when it witnesses another individual performing a comparable action. Humans possess an even more intricate mirror neuron system that reflects the external world in our brains, enabling us to internalise the behaviours of others. Nonetheless, these cells necessitate what scientists refer to as 'goal-orientated movements' to activate. If we stare at a photograph, a static image of a runner striding ahead, our mirror neurons remain utterly silent. It is solely when the runner is in action, be it in running, moving, or sprinting, that they are ignited. Movement, not stillness, is what speaks to our brains.</p>
+      <p><span class="para-letter">D</span> &nbsp;Electrophysiological studies have shown that when we observe a golfer or a runner in action, our own premotor cortex mirror neurons respond as if we were participating in the activity. This neural mirroring was initially identified in 1954 by French physiologists Gastaut and Bert, who noticed specific alpha and mu brain wave patterns in humans. The mu signal plays a role in neural mirroring, remaining active during periods of bodily stillness but dissipating when we undertake active pursuits like playing a sport or changing TV channels. Notably, the mu signal also remains subdued while we observe someone else in action, such as on television, which alludes to the influence of mirror neurons. This suggests that our brains do not simply passively register what we see, but actively simulate it, engaging systems normally reserved for action.</p>
+      <p><span class="para-letter">E</span> &nbsp;Rizzolatti, Fogassi, and Gallese have coined the term 'direct matching hypothesis' to delineate the concept of mirror neurons. They asserted that to comprehend the movements of sports stars, we need to align the visual representation of the observed action with our own motor representation of the same action. According to this theory, watching an Olympic athlete can evoke a resonance in the observer's motor system. The observer's 'motor knowledge' is harnessed to decipher the observed action. However, mirror neurons extend beyond their being merely neural foundations for our sporting inclinations. They also enable observers to enhance their athletic abilities through the process of observation. It turns out that watching a remarkable golfer improves our own golfing skills, and witnessing a skilled sprinter actually bolsters our running speed. This ability to learn through observation is a vital skill. From language acquisition in infancy to understanding facial expressions, mimicking plays a fundamental role in our consciousness. The most accomplished athletes possess a premotor cortex capable of envisioning victorious movements, supplemented by the physical attributes required to translate those movements into reality. In this way, action and imagination coalesce to drive performance.</p>
+      <p><span class="para-letter">F</span> &nbsp;However, how many among us watch sport in order to enhance our athletic abilities? Most spectators tune in for the emotional roller coaster, the human drama it encompasses. This emotional connection finds its roots in mirror neurons, which allow spectators to perceive athletes' victorious movements and to share in the emotion of their triumphs. This is because they are directly associated with the amygdala, a key area of the brain responsible for emotional processing. During the Olympics, mirror neurons in individuals around the world resonate in unison, and watching sport unifies people. The majority of us may never run a mile in under four minutes or hit a home run. Yet, as we gather around our televisions, we all briefly get a taste of the feeling of executing something flawlessly. In those fleeting moments, sport becomes more than entertainment—it becomes a shared human experience.</p>
+    </div>
+    <div class="question-col">
+      <div class="q-section-header">
+        <div class="q-section-tag">Questions 27–32</div>
+        <div class="q-section-title">Which paragraph (A–F) contains the following information?</div>
+        <div class="q-section-inst"><em>You may use any letter more than once.</em></div>
+      </div>
+      <div id="para-match-container"></div>
+      <div class="q-divider"></div>
+      <div class="q-section-header">
+        <div class="q-section-tag">Questions 33–35</div>
+        <div class="q-section-title">Choose the correct answer (A, B, C or D).</div>
+      </div>
+      <div id="mcq-container"></div>
+      <div class="q-divider"></div>
+      <div class="q-section-header">
+        <div class="q-section-tag">Questions 36–40</div>
+        <div class="q-section-title">Yes / No / Not Given</div>
+        <div class="q-section-inst">Choose <strong>YES</strong> if the statement agrees with the writer's claims, <strong>NO</strong> if it contradicts, or <strong>NOT GIVEN</strong> if it is impossible to say.</div>
+      </div>
+      <div id="ynng-container"></div>
+      <div style="height:40px;"></div>
+    </div>
+  </div><!-- /tab3 -->
+
+    </div><!-- /tabContentWrap -->
+  </div><!-- /sidebar+tabs wrapper -->
+</div><!-- /testScreen -->
+
+<!-- Highlight toolbar -->
+<div id="hlToolbar">✏ Highlight</div>
+
+<!-- Submit overlay -->
+<div id="submitOverlay">
+  <div class="submit-spinner"></div>
+  <div class="submit-text">Đang nộp bài... Vui lòng chờ</div>
+</div>
+
+<!-- ===== RESULT ===== -->
+<div id="resultScreen">
+  <div class="result-wrap">
+    <!-- Score card -->
+    <div class="result-card">
+      <div class="result-emoji">🎓</div>
+      <div class="result-congrats">Chúc mừng!</div>
+      <div class="result-name" id="resultName">Bạn đã hoàn thành bài thi.</div>
+      <div class="result-score-box">
+        <div class="result-score-label">Số câu đúng</div>
+        <div><span class="result-score-num" id="resultScore">—</span><span class="result-score-den"> / 40</span></div>
+      </div>
+      <div class="result-band-box">Band Score: <span id="resultBand">—</span></div>
+      <div class="result-note">Kết quả đã được ghi nhận vào hệ thống G.EDU.<br>Cảm ơn bạn đã tham gia bài thi.</div>
+      <button class="btn-review" onclick="enterReviewMode()">👁 Xem lại bài làm</button>
+    </div>
+    <!-- Answer review table removed -->
+  </div>
+</div>
+
+<script>
+// ===== SECURITY =====
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+  if (e.key === 'F12' ||
+      (e.ctrlKey && ['u','U','c','C','v','V','s','S','p','P'].includes(e.key)) ||
+      (e.ctrlKey && e.shiftKey && ['i','I','j','J','c','C'].includes(e.key))) {
+    e.preventDefault(); e.stopPropagation();
+  }
+});
+
+function confirmSubmit() {
+  const modal = document.getElementById('confirmModal');
+  modal.style.display = 'flex';
+}
+function closeConfirm() {
+  document.getElementById('confirmModal').style.display = 'none';
+}
+
+// ===== REVIEW MODE =====
+let savedAnswers = {}; // stored at submit time
+
+function enterReviewMode() {
+  document.getElementById('resultScreen').classList.remove('active');
+  document.getElementById('testScreen').classList.add('active');
+
+  // Show review banner, hide submit btn, show back btn
+  document.getElementById('reviewModeBanner').style.display = 'block';
+  document.getElementById('btnSubmitHeader').style.display = 'none';
+  document.getElementById('btnBackResult').style.display = 'inline-flex';
+  document.getElementById('submitWarning').style.display = 'none';
+
+  // Timer shows submitted
+  const td = document.getElementById('timerDisplay');
+  td.textContent = '✓ Đã nộp';
+  td.style.fontSize = '0.9rem';
+  td.classList.remove('danger','warning');
+
+  // Lock everything
+  lockAllInputs();
+  document.querySelectorAll('.heading-select').forEach(s => s.disabled = true);
+  document.querySelectorAll('.dnd-chip').forEach(c => c.draggable = false);
+
+  // Inject answer badges on every q-item and q-sent-wrap
+  injectAnswerBadges();
+
+  // Switch to tab 1
+  switchTab(1);
+}
+
+function exitReviewMode() {
+  document.getElementById('testScreen').classList.remove('active');
+  document.getElementById('resultScreen').classList.add('active');
+  document.getElementById('reviewModeBanner').style.display = 'none';
+  document.getElementById('btnSubmitHeader').style.display = 'inline-flex';
+  document.getElementById('btnBackResult').style.display = 'none';
+}
+
+function injectAnswerBadges() {
+  // Q-items (radio-based)
+  document.querySelectorAll('.q-item[data-q-num]').forEach(item => {
+    if (item.querySelector('.ans-badge')) return;
+    const q = parseInt(item.getAttribute('data-q-num'));
+    const userAns = (savedAnswers[q.toString()] || '').trim();
+    const key = (KEYS[q - 1] || '').trim();
+    const isBlank = !userAns;
+    const isCorrect = !isBlank && userAns.toLowerCase() === key.toLowerCase();
+    const wrap = document.createElement('div');
+    wrap.style.marginTop = '8px';
+    if (isBlank) {
+      wrap.innerHTML = `<span class="ans-badge blank">— Bỏ trống</span>`;
+    } else if (isCorrect) {
+      wrap.innerHTML = `<span class="ans-badge correct">✓ ${userAns}</span>`;
+    } else {
+      wrap.innerHTML = `<span class="ans-badge wrong">✗ ${userAns}</span>`;
+    }
+    item.appendChild(wrap);
+  });
+
+  // Q-sent-wraps (text input Q21-26)
+  document.querySelectorAll('.q-sent-wrap[data-q-num]').forEach(wrap => {
+    if (wrap.querySelector('.ans-badge')) return;
+    const q = parseInt(wrap.getAttribute('data-q-num'));
+    const userAns = (savedAnswers[q.toString()] || '').trim();
+    const key = (KEYS[q - 1] || '').trim();
+    const isBlank = !userAns;
+    const isCorrect = !isBlank && userAns.toLowerCase() === key.toLowerCase();
+    const badgeWrap = document.createElement('div');
+    badgeWrap.style.cssText = 'margin-top:4px;display:block;width:100%;';
+    if (isBlank) {
+      badgeWrap.innerHTML = `<span class="ans-badge blank">— Bỏ trống</span>`;
+    } else if (isCorrect) {
+      badgeWrap.innerHTML = `<span class="ans-badge correct">✓ ${userAns}</span>`;
+    } else {
+      badgeWrap.innerHTML = `<span class="ans-badge wrong">✗ ${userAns}</span>`;
+    }
+    wrap.appendChild(badgeWrap);
+  });
+
+  // Table inputs Q1-7
+  document.querySelectorAll('.q-input').forEach(inp => {
+    const q = parseInt(inp.dataset.q);
+    if (q > 20) return;
+    if (inp.parentElement.querySelector('.ans-badge')) return;
+    const userAns = (savedAnswers[q.toString()] || '').trim();
+    const key = (KEYS[q - 1] || '').trim();
+    const isBlank = !userAns;
+    const isCorrect = !isBlank && userAns.toLowerCase() === key.toLowerCase();
+    const badge = document.createElement('span');
+    badge.className = 'ans-badge ' + (isBlank ? 'blank' : isCorrect ? 'correct' : 'wrong');
+    badge.style.display = 'block'; badge.style.marginTop = '3px';
+    badge.textContent = isBlank ? '—' : isCorrect ? `✓ ${userAns}` : `✗ ${userAns}`;
+    inp.parentElement.appendChild(badge);
+  });
+
+  // Heading selects Q14-20
+  document.querySelectorAll('.heading-select').forEach(sel => {
+    if (sel.parentElement.querySelector('.ans-badge')) return;
+    const q = parseInt(sel.dataset.q);
+    const userAns = (savedAnswers[q.toString()] || '').trim();
+    const key = (KEYS[q - 1] || '').trim();
+    const isBlank = !userAns;
+    const isCorrect = !isBlank && userAns.toLowerCase() === key.toLowerCase();
+    const badge = document.createElement('div');
+    badge.style.marginTop = '6px';
+    if (isBlank) {
+      badge.innerHTML = `<span class="ans-badge blank">— Bỏ trống</span>`;
+    } else if (isCorrect) {
+      badge.innerHTML = `<span class="ans-badge correct">✓ ${userAns}</span>`;
+    } else {
+      badge.innerHTML = `<span class="ans-badge wrong">✗ ${userAns}</span>`;
+    }
+    sel.parentElement.appendChild(badge);
+  });
+}
+
+// ===== REVIEW TABLE =====
+const sectionLabels = {
+  1:'Passage 1 — Q1–7: Complete the table',
+  8:'Passage 1 — Q8–13: True / False / Not Given',
+  14:'Passage 2 — Q14–20: Choose the correct heading',
+  21:'Passage 2 — Q21–26: Complete the sentences',
+  27:'Passage 3 — Q27–32: Paragraph matching',
+  33:'Passage 3 — Q33–35: Multiple choice',
+  36:'Passage 3 — Q36–40: Yes / No / Not Given'
+};
+
+function buildReviewTable(answers) {
+  const tbody = document.getElementById('reviewBody');
+  tbody.innerHTML = '';
+  const sectionStarts = [1, 8, 14, 21, 27, 33, 36];
+
+  for (let q = 1; q <= 40; q++) {
+    // Section header row
+    if (sectionStarts.includes(q)) {
+      const sRow = document.createElement('tr');
+      sRow.className = 'section-row';
+      sRow.innerHTML = `<td colspan="4">${sectionLabels[q]}</td>`;
+      tbody.appendChild(sRow);
+    }
+    const key = KEYS[q - 1] || '';
+    const userRaw = (answers[q.toString()] || '').trim();
+    const isBlank = userRaw === '';
+    const isCorrect = !isBlank && userRaw.toLowerCase() === key.toLowerCase();
+
+    const row = document.createElement('tr');
+    const userDisplay = isBlank ? '—' : userRaw;
+    const badge = isBlank
+      ? '<span class="badge-blank">Bỏ trống</span>'
+      : isCorrect
+        ? '<span class="badge-correct">✓ Đúng</span>'
+        : '<span class="badge-wrong">✗ Sai</span>';
+
+    row.innerHTML = `
+      <td>Q${q}</td>
+      <td class="cell-user" style="${isBlank ? 'color:rgba(255,255,255,0.2)' : isCorrect ? 'color:#68d391' : 'color:#fc8181'}">${userDisplay}</td>
+      <td class="cell-key">${key}</td>
+      <td>${badge}</td>`;
+    tbody.appendChild(row);
+  }
+}
+
+// ===== FLAG SYSTEM STATE (declared early to avoid ReferenceError) =====
+const FLAG_KEY = 'gedu_flags_rt3';
+let flaggedSet = new Set();
+
+// ===== ANSWER KEY (Base64 obfuscated) =====
+// Each answer lowercased, pipe-separated
+const _k = atob("cGhvdG9ncmFwaGljIGZpbG18YmFrZWxpdGV8ZWxlY3RyaWNhbCBzd2l0Y2hlc3xiaml0YWlufGZpcmVwcm9vZnxnbGFzc3xmb2FtfGZhbHNlfG5vdCBnaXZlbnxmYWxzZXx0cnVlfGZhbHNlfHRydWV8aWl8aXZ8dmlpfHZpaWl8eHx2aXxpaWl8Y3JhZnR8bXVsdGktc2tpbGxlZHxtYW51ZmFjdHVyaW5nIHNwYWNlfGp1c3QtaW4tdGltZXxhYm5vcm1hbGl0aWVzfGxpZ2h0c3xmfGJ8ZXxjfGV8ZHxkfGJ8Y3x5ZXN8bm98bm98bm90IGdpdmVufHllcw==");
+const KEYS = _k.split('|');
+
+// ===== BAND SCORE TABLE =====
+function getBand(correct) {
+  const table = [
+    [39,9.0],[37,8.5],[35,8.0],[33,7.5],[30,7.0],[27,6.5],[23,6.0],[19,5.5],[15,5.0],[13,4.5],[10,4.0],[0,3.5]
+  ];
+  for (const [threshold, band] of table) {
+    if (correct >= threshold) return band.toFixed(1);
+  }
+  return "3.0";
+}
+
+// ===== QUESTION DATA =====
+const tfngData = [
+  {q:8, text:"The chemical structure of rubber is very different to that of plastics.", opts:["TRUE","FALSE","NOT GIVEN"]},
+  {q:9, text:"John Wesley Hyatt was an industrial chemist.", opts:["TRUE","FALSE","NOT GIVEN"]},
+  {q:10, text:"Celluloid and Bakelite react in the same way to heat.", opts:["TRUE","FALSE","NOT GIVEN"]},
+  {q:11, text:"If an object is made of several plastics, these prove hard to break down and reuse.", opts:["TRUE","FALSE","NOT GIVEN"]},
+  {q:12, text:"Adding starch to plastic makes it more durable.", opts:["TRUE","FALSE","NOT GIVEN"]},
+  {q:13, text:"Containers which are designed to decompose need particular storage conditions.", opts:["TRUE","FALSE","NOT GIVEN"]},
+];
+
+const headingData = [
+  {q:14, para:"Paragraph 14 (Intro — historical context)", opts:["i","ii","iii","iv","v","vi","vii","viii","ix","x"]},
+  {q:15, para:"Paragraph 15 (Comparing production systems)", opts:["i","ii","iii","iv","v","vi","vii","viii","ix","x"]},
+  {q:16, para:"Paragraph 16 (What 'lean' means)", opts:["i","ii","iii","iv","v","vi","vii","viii","ix","x"]},
+  {q:17, para:"Paragraph 17 (Production standards)", opts:["i","ii","iii","iv","v","vi","vii","viii","ix","x"]},
+  {q:18, para:"Paragraph 18 (Objectives of lean)", opts:["i","ii","iii","iv","v","vi","vii","viii","ix","x"]},
+  {q:19, para:"Paragraph 19 (Continuous flow mechanisms)", opts:["i","ii","iii","iv","v","vi","vii","viii","ix","x"]},
+  {q:20, para:"Paragraph 20 (Autonamation)", opts:["i","ii","iii","iv","v","vi","vii","viii","ix","x"]},
+];
+
+const paraMatchData = [
+  {q:27, text:"reasons why watching sport can bring emotional satisfaction"},
+  {q:28, text:"an explanation of why beginners struggle with sports tasks"},
+  {q:29, text:"a factor that can work alongside mirroring in sports competitions to maintain peak performance"},
+  {q:30, text:"a comparison between the mirror neurons of human beings and primates"},
+  {q:31, text:"mention of integrating visual and motor processes to understand athletic movements"},
+  {q:32, text:"reference to the first discovery of brain activity associated with mirror neurons"},
+];
+
+const mcqData = [
+  {q:33, text:"What point does the writer make about professional athletes in Paragraph B?",
+   opts:{A:"They meticulously plan each phase of their movements.",B:"They engage in regular practice to retain and refine their skills.",C:"They actively consider and analyse the actions of their peers.",D:"They perform their actions without conscious contemplation."}},
+  {q:34, text:"In this passage, the writer mentions the example of a remarkable golfer to illustrate",
+   opts:{A:"the critical role of imitation in the formation of consciousness.",B:"the improvement of sporting ability through watching sport.",C:"the stimulation of a resonance in the observer's motor system.",D:"the motivation of the observer's interest and love for golf."}},
+  {q:35, text:"The principal motivation for watching sport mentioned by the writer is",
+   opts:{A:"to improve our physical ability by analyzing the athletes' technical strategies.",B:"to unite viewers from different nations.",C:"to experience intense positive emotions by immersing oneself in sport.",D:"to become a sports professional."}},
+];
+
+const ynngData = [
+  {q:36, text:"The emergence of Homer's epic poetry occurred in the same historical period as the beginning of the Olympic Games."},
+  {q:37, text:"The Italian scientists concluded that the motor actions encoded within the premotor cortex have no discernible link to unrelated collections of neurons."},
+  {q:38, text:"Spectators can achieve flawless golf swings merely by watching the Masters Tournament without physical practice."},
+  {q:39, text:"Some neuroscientists believe that certain types of still images might activate mirror neurons under specific experimental conditions."},
+  {q:40, text:"The mu system is suppressed while we are dynamically involved in a particular activity."},
+];
+
+// ===== BUILD QUESTION UI =====
+function buildOptions(containerEl, qNum, opts, dataQ, inline=false) {
+  const wrap = document.createElement('div');
+  wrap.className = 'q-options';
+  opts.forEach(opt => {
+    const lbl = document.createElement('label');
+    lbl.className = 'q-opt';
+    lbl.dataset.q = qNum; lbl.dataset.val = opt;
+    lbl.innerHTML = `<input type="radio" name="q${qNum}" data-q="${qNum}" value="${opt}">${opt}`;
+    lbl.addEventListener('click', () => {
+      document.querySelectorAll(`label.q-opt[data-q="${qNum}"]`).forEach(l => l.classList.remove('selected'));
+      lbl.classList.add('selected');
+    });
+    wrap.appendChild(lbl);
+  });
+  return wrap;
+}
+
+function buildTFNG(container, data) {
+  data.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'q-item';
+    div.innerHTML = `<div class="q-item-number">Question ${item.q}</div><div class="q-item-text">${item.text}</div>`;
+    const opts = buildOptions(div, item.q, item.opts);
+    div.appendChild(opts);
+    container.appendChild(div);
+  });
+}
+
+function buildHeadings(container, data) {
+  const romanOpts = ["i","ii","iii","iv","v","vi","vii","viii","ix","x"];
+  const headingLabels = {
+    i:"Global resistance to lean manufacturing",
+    ii:"The historical context",
+    iii:"Procedures for controlling quality",
+    iv:"The pros and cons of different production systems",
+    v:"The impact on profits",
+    vi:"Procedures for controlling supply",
+    vii:"The origin of the term",
+    viii:"A crucial difference in levels of quality",
+    ix:"Working conditions",
+    x:"Interdependent strategies for controlling expenditure"
+  };
+
+  data.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'q-item';
+    div.setAttribute('data-q-num', item.q);
+    div.innerHTML = `<div class="q-item-number">Question ${item.q}</div><div class="q-item-text">${item.para}</div>`;
+
+    // Dropdown select
+    const sel = document.createElement('select');
+    sel.className = 'heading-select';
+    sel.dataset.q = item.q;
+    sel.name = `q${item.q}`;
+
+    const defaultOpt = document.createElement('option');
+    defaultOpt.value = '';
+    defaultOpt.textContent = '— Chọn heading —';
+    sel.appendChild(defaultOpt);
+
+    romanOpts.forEach(r => {
+      const opt = document.createElement('option');
+      opt.value = r;
+      opt.textContent = `${r}. ${headingLabels[r]}`;
+      sel.appendChild(opt);
+    });
+
+    sel.addEventListener('change', () => {
+      // Hidden radio for collectAnswers compatibility
+      let radio = div.querySelector(`input[type=radio][value="${sel.value}"]`);
+      div.querySelectorAll('input[type=radio]').forEach(r => r.checked = false);
+      if (!radio) {
+        // create hidden radios on first use
+        romanOpts.forEach(r => {
+          const inp = document.createElement('input');
+          inp.type = 'radio'; inp.name = `q${item.q}`; inp.dataset.q = item.q;
+          inp.value = r; inp.style.display = 'none';
+          div.appendChild(inp);
+        });
+      }
+      const target = div.querySelector(`input[type=radio][value="${sel.value}"]`);
+      if (target) target.checked = true;
+      refreshSidebarNum(item.q);
+    });
+
+    // Pre-create hidden radios
+    romanOpts.forEach(r => {
+      const inp = document.createElement('input');
+      inp.type = 'radio'; inp.name = `q${item.q}`; inp.dataset.q = item.q;
+      inp.value = r; inp.style.display = 'none';
+      div.appendChild(inp);
+    });
+
+    div.appendChild(sel);
+    container.appendChild(div);
+  });
+}
+
+function buildParaMatch(container, data) {
+  const paraOpts = ["A","B","C","D","E","F"];
+  data.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'q-item';
+    div.innerHTML = `<div class="q-item-number">Question ${item.q}</div><div class="q-item-text">${item.text}</div>`;
+    const wrap = buildOptions(div, item.q, paraOpts);
+    div.appendChild(wrap);
+    container.appendChild(div);
+  });
+}
+
+function buildMCQ(container, data) {
+  data.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'q-item';
+    div.innerHTML = `<div class="q-item-number">Question ${item.q}</div><div class="q-item-text">${item.text}</div>`;
+    const wrap = document.createElement('div');
+    wrap.className = 'q-mcq-options';
+    Object.entries(item.opts).forEach(([letter, text]) => {
+      const lbl = document.createElement('label');
+      lbl.className = 'q-mcq-opt';
+      lbl.dataset.q = item.q; lbl.dataset.val = letter;
+      lbl.innerHTML = `<input type="radio" name="q${item.q}" data-q="${item.q}" value="${letter}"><span class="opt-letter">${letter}.</span>${text}`;
+      lbl.addEventListener('click', () => {
+        document.querySelectorAll(`label.q-mcq-opt[data-q="${item.q}"]`).forEach(l => l.classList.remove('selected'));
+        lbl.classList.add('selected');
+      });
+      wrap.appendChild(lbl);
+    });
+    div.appendChild(wrap);
+    container.appendChild(div);
+  });
+}
+
+buildTFNG(document.getElementById('tfng-container'), tfngData);
+buildHeadings(document.getElementById('heading-container'), headingData);
+buildParaMatch(document.getElementById('para-match-container'), paraMatchData);
+buildMCQ(document.getElementById('mcq-container'), mcqData);
+buildTFNG(document.getElementById('ynng-container'), ynngData.map(d => ({...d, opts:["YES","NO","NOT GIVEN"]})));
+
+// Init flag system after all questions rendered
+loadFlags();
+addFlagButtons();
+buildSidebar();
+watchAnswers();
+
+// ===== LOGIN LOGIC =====
+const inputName = document.getElementById('inputName');
+const inputClass = document.getElementById('inputClass');
+const btnStart = document.getElementById('btnStart');
+
+function checkLogin() {
+  btnStart.disabled = !(inputName.value.trim() && inputClass.value.trim());
+}
+inputName.addEventListener('input', checkLogin);
+inputClass.addEventListener('input', checkLogin);
+
+let studentName = '', studentClass = '';
+
+btnStart.addEventListener('click', () => {
+  studentName = inputName.value.trim();
+  studentClass = inputClass.value.trim();
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('testScreen').classList.add('active');
+  document.getElementById('headerName').textContent = studentName;
+  document.getElementById('headerClass').textContent = studentClass;
+  startTimer();
+});
+
+// ===== TIMER =====
+let totalSeconds = 60 * 60;
+let timerInterval = null;
+let autoSubmitted = false;
+
+function startTimer() {
+  timerInterval = setInterval(() => {
+    totalSeconds--;
+    if (totalSeconds < 0) totalSeconds = 0;
+    updateTimerDisplay();
+    if (totalSeconds === 30) {
+      document.getElementById('submitWarning').style.display = 'block';
+      document.getElementById('timerDisplay').classList.add('warning');
+    }
+    if (totalSeconds === 0 && !autoSubmitted) {
+      clearInterval(timerInterval);
+      autoSubmitted = true;
+      submitData();
+    }
+    if (totalSeconds <= 30) {
+      document.getElementById('timerDisplay').classList.remove('warning');
+      document.getElementById('timerDisplay').classList.add('danger');
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(totalSeconds / 60).toString().padStart(2,'0');
+  const s = (totalSeconds % 60).toString().padStart(2,'0');
+  document.getElementById('timerDisplay').textContent = `${m}:${s}`;
+}
+
+function lockAllInputs() {
+  document.querySelectorAll('.q-input').forEach(el => el.disabled = true);
+  document.querySelectorAll('input[type=radio]').forEach(el => el.disabled = true);
+  document.querySelectorAll('.q-opt, .q-mcq-opt').forEach(el => el.style.pointerEvents = 'none');
+}
+
+// ===== COLLECT ANSWERS =====
+function collectAnswers() {
+  const answers = {};
+  document.querySelectorAll('.q-input').forEach(el => {
+    answers[el.dataset.q] = el.value.trim().toLowerCase();
+  });
+  document.querySelectorAll('input[type=radio]:checked').forEach(el => {
+    answers[el.dataset.q] = el.value.toLowerCase();
+  });
+  // Heading dropdowns (override hidden radio if present)
+  document.querySelectorAll('.heading-select').forEach(sel => {
+    if (sel.value) answers[sel.dataset.q] = sel.value.toLowerCase();
+  });
+  return answers;
+}
+
+function gradeAnswers(answers) {
+  let correct = 0;
+  KEYS.forEach((key, idx) => {
+    const qNum = (idx + 1).toString();
+    const userAns = (answers[qNum] || '').trim().toLowerCase();
+    if (userAns === key.trim().toLowerCase()) correct++;
+  });
+  return correct;
+}
+
+// ===== SUBMIT =====
+const GAS_URL = "https://script.google.com/macros/s/AKfycbze-ULqfpnB5IcJxAvg2m7IfSqkoUY4JmoHnjvpuGvxodzmLbhHHlcqxfcnha2aahY/exec";
+let isSubmitting = false;
+
+// Lưu tạm vào localStorage ngay khi bắt đầu nộp — tránh mất data
+function backupToLocal(payload) {
+  try {
+    const key = `gedu_backup_${Date.now()}`;
+    localStorage.setItem(key, JSON.stringify(payload));
+  } catch(e) {}
+}
+
+// Gửi bằng FormData (no-cors safe với GAS)
+function buildFormData(payload) {
+  const fd = new FormData();
+  Object.entries(payload).forEach(([k, v]) => fd.append(k, v));
+  return fd;
+}
+
+// Thử gửi 1 lần, trả về true/false
+async function trySend(payload) {
+  try {
+    // Cách 1: FormData — GAS nhận được qua e.parameter
+    const res = await fetch(GAS_URL, {
+      method: 'POST',
+      keepalive: true,
+      body: buildFormData(payload)
+    });
+    return true;
+  } catch(e) {
+    return false;
+  }
+}
+
+// Fallback: dùng Image beacon (không bị block bởi CORS, không cần response)
+function sendBeacon(payload) {
+  try {
+    const params = new URLSearchParams();
+    Object.entries(payload).forEach(([k,v]) => params.append(k, v));
+    // Beacon qua GET
+    new Image().src = GAS_URL + '?' + params.toString();
+  } catch(e) {}
+  // Thử navigator.sendBeacon nếu có
+  try {
+    navigator.sendBeacon(GAS_URL, buildFormData(payload));
+  } catch(e) {}
+}
+
+async function submitData() {
+  if (isSubmitting) return; // Chặn double-submit
+  isSubmitting = true;
+
+  clearInterval(timerInterval);
+  lockAllInputs();
+  document.getElementById('submitOverlay').classList.add('active');
+
+  const answers = collectAnswers();
+  savedAnswers = answers; // save for review mode
+  const correct = gradeAnswers(answers);
+  const band = getBand(correct);
+  const timestamp = new Date().toISOString();
+
+  const payload = {
+    name: studentName,
+    classId: studentClass,
+    correct: correct.toString(),
+    total: '40',
+    band,
+    timestamp,
+    answers: JSON.stringify(answers)
+  };
+
+  // Bước 1: Backup ngay vào localStorage
+  backupToLocal(payload);
+
+  // Bước 2: Thử gửi tối đa 3 lần với delay
+  let sent = false;
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    sent = await trySend(payload);
+    if (sent) break;
+    if (attempt < 3) await new Promise(r => setTimeout(r, 1500 * attempt));
+  }
+
+  // Bước 3: Nếu vẫn fail → dùng beacon làm phương án cuối
+  if (!sent) {
+    sendBeacon(payload);
+  }
+
+  // Bước 4: Hiển thị kết quả dù gửi thành công hay không
+  document.getElementById('submitOverlay').classList.remove('active');
+  document.getElementById('testScreen').classList.remove('active');
+  document.getElementById('resultName').textContent = `${studentName} đã hoàn thành bài thi!`;
+  document.getElementById('resultScore').textContent = correct;
+  document.getElementById('resultBand').textContent = band;
+  document.getElementById('resultScreen').classList.add('active');
+}
+
+// ===== FLAG SYSTEM =====
+
+// Q metadata for sidebar labels
+const qMeta = {
+  1:'Photographic film (table)', 2:'Bakelite (table)', 3:'Electrical switches (table)',
+  4:'Britain (table)', 5:'Fireproof (table)', 6:'Glass (table)', 7:'Foam (table)',
+  8:'Q8 T/F/NG', 9:'Q9 T/F/NG', 10:'Q10 T/F/NG', 11:'Q11 T/F/NG', 12:'Q12 T/F/NG', 13:'Q13 T/F/NG',
+  14:'Heading P14', 15:'Heading P15', 16:'Heading P16', 17:'Heading P17',
+  18:'Heading P18', 19:'Heading P19', 20:'Heading P20',
+  21:'Sent. 21', 22:'Sent. 22', 23:'Sent. 23', 24:'Sent. 24', 25:'Sent. 25', 26:'Sent. 26',
+  27:'Para match 27', 28:'Para match 28', 29:'Para match 29',
+  30:'Para match 30', 31:'Para match 31', 32:'Para match 32',
+  33:'MCQ Q33', 34:'MCQ Q34', 35:'MCQ Q35',
+  36:'Y/N/NG Q36', 37:'Y/N/NG Q37', 38:'Y/N/NG Q38', 39:'Y/N/NG Q39', 40:'Y/N/NG Q40'
+};
+
+function loadFlags() {
+  try { flaggedSet = new Set(JSON.parse(localStorage.getItem(FLAG_KEY) || '[]')); } catch(e) { flaggedSet = new Set(); }
+}
+function saveFlags() {
+  try { localStorage.setItem(FLAG_KEY, JSON.stringify([...flaggedSet])); } catch(e) {}
+}
+
+function isAnswered(q) {
+  const radio = document.querySelector(`input[type=radio][data-q="${q}"]:checked`);
+  if (radio) return true;
+  const inp = document.querySelector(`.q-input[data-q="${q}"]`);
+  if (inp && inp.value.trim()) return true;
+  const sel = document.querySelector(`.heading-select[data-q="${q}"]`);
+  if (sel && sel.value) return true;
+  return false;
+}
+
+function buildSidebar() {
+  const sbNums = document.getElementById('sbNums');
+  sbNums.innerHTML = '';
+  // Tab dividers: P1=1-13, P2=14-26, P3=27-40
+  const groups = [[1,13],[14,26],[27,40]];
+  groups.forEach(([from, to], gi) => {
+    if (gi > 0) { const d = document.createElement('div'); d.className = 'sb-divider'; sbNums.appendChild(d); }
+    for (let q = from; q <= to; q++) {
+      const el = document.createElement('div');
+      el.className = 'sb-num';
+      el.id = `sb-${q}`;
+      el.textContent = q;
+      el.title = `Q${q}`;
+      el.onclick = () => scrollToQuestion(q);
+      sbNums.appendChild(el);
+    }
+  });
+  refreshSidebarAll();
+}
+
+function refreshSidebarAll() {
+  for (let q = 1; q <= 40; q++) refreshSidebarNum(q);
+}
+
+function refreshSidebarNum(q) {
+  const el = document.getElementById(`sb-${q}`);
+  if (!el) return;
+  const answered = isAnswered(q);
+  const flagged = flaggedSet.has(q);
+  el.className = 'sb-num' + (answered ? ' answered' : '') + (flagged ? ' flagged' : '');
+}
+
+function toggleFlag(q) {
+  if (flaggedSet.has(q)) flaggedSet.delete(q);
+  else flaggedSet.add(q);
+  saveFlags();
+  // Update flag button appearance
+  const btn = document.querySelector(`.flag-btn[data-q="${q}"]`);
+  if (btn) btn.classList.toggle('flagged', flaggedSet.has(q));
+  // Update q-item border
+  const item = document.querySelector(`.q-item[data-q-num="${q}"], .q-sent-wrap[data-q-num="${q}"]`);
+  if (item) item.classList.toggle('flagged', flaggedSet.has(q));
+  refreshSidebarNum(q);
+}
+
+function openFlagPanel() {
+  const body = document.getElementById('flagPanelBody');
+  const flagged = [...flaggedSet].sort((a,b) => a-b);
+  if (!flagged.length) {
+    body.innerHTML = '<div class="flag-panel-empty">Chưa có câu nào được đánh dấu 🚩</div>';
+  } else {
+    body.innerHTML = flagged.map(q => {
+      const answered = isAnswered(q);
+      return `<div class="flag-panel-item" onclick="goToQuestion(${q})">
+        <div class="fp-num ${answered?'answered':''}">${q}</div>
+        <div class="fp-text">Q${q} — ${qMeta[q]||''}</div>
+        <div class="fp-status ${answered?'done':''}">${answered?'✓ Đã làm':'Chưa làm'}</div>
+      </div>`;
+    }).join('');
+  }
+  document.getElementById('flagPanel').classList.add('open');
+}
+
+function closeFlagPanel() {
+  document.getElementById('flagPanel').classList.remove('open');
+}
+document.getElementById('flagPanel').addEventListener('click', e => {
+  if (e.target === document.getElementById('flagPanel')) closeFlagPanel();
+});
+
+function scrollToQuestion(q) {
+  // Figure out which tab this q belongs to and switch
+  const tabNum = q <= 13 ? 1 : q <= 26 ? 2 : 3;
+  switchTab(tabNum);
+  setTimeout(() => {
+    const el = document.querySelector(`[data-q-num="${q}"]`);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 80);
+}
+
+function goToQuestion(q) {
+  closeFlagPanel();
+  setTimeout(() => scrollToQuestion(q), 200);
+}
+
+// Add flag buttons to all q-items and q-sents after DOM build
+function addFlagButtons() {
+  // q-items (radio-based questions)
+  document.querySelectorAll('.q-item').forEach(item => {
+    const numEl = item.querySelector('.q-item-number');
+    if (!numEl) return;
+    const match = numEl.textContent.match(/\d+/);
+    if (!match) return;
+    const q = parseInt(match[0]);
+    item.setAttribute('data-q-num', q);
+    item.classList.toggle('flagged', flaggedSet.has(q));
+    const btn = document.createElement('button');
+    btn.className = 'flag-btn' + (flaggedSet.has(q) ? ' flagged' : '');
+    btn.dataset.q = q;
+    btn.title = 'Đánh dấu để xem lại';
+    btn.textContent = '🚩';
+    btn.onclick = (e) => { e.stopPropagation(); toggleFlag(q); };
+    item.appendChild(btn);
+  });
+
+  // q-sents (text input questions: Q1-7 handled separately, Q21-26 as q-sent)
+  document.querySelectorAll('.q-sent').forEach(sent => {
+    const match = sent.innerHTML.match(/data-q="(\d+)"/);
+    if (!match) return;
+    const q = parseInt(match[1]);
+    // Wrap in q-sent-wrap if not already
+    if (!sent.parentElement.classList.contains('q-sent-wrap')) {
+      const wrap = document.createElement('div');
+      wrap.className = 'q-sent-wrap';
+      wrap.setAttribute('data-q-num', q);
+      wrap.classList.toggle('flagged', flaggedSet.has(q));
+      sent.parentNode.insertBefore(wrap, sent);
+      wrap.appendChild(sent);
+      const btn = document.createElement('button');
+      btn.className = 'flag-btn' + (flaggedSet.has(q) ? ' flagged' : '');
+      btn.dataset.q = q;
+      btn.title = 'Đánh dấu để xem lại';
+      btn.textContent = '🚩';
+      btn.onclick = (e) => { e.stopPropagation(); toggleFlag(q); };
+      wrap.appendChild(btn);
+    }
+  });
+
+  // Table inputs Q1-7: add flag to their rows
+  document.querySelectorAll('.q-input').forEach(inp => {
+    const q = parseInt(inp.dataset.q);
+    if (q > 7) return; // Q21-26 handled as q-sent above
+    const td = inp.closest('td');
+    if (!td || td.querySelector('.flag-btn')) return;
+    const btn = document.createElement('button');
+    btn.className = 'flag-btn' + (flaggedSet.has(q) ? ' flagged' : '');
+    btn.dataset.q = q;
+    btn.title = 'Đánh dấu';
+    btn.textContent = '🚩';
+    btn.style.cssText = 'position:static;display:inline;font-size:0.75rem;vertical-align:middle;margin-left:4px;';
+    btn.onclick = (e) => { e.stopPropagation(); toggleFlag(q); };
+    const tr = inp.closest('tr');
+    if (tr) tr.setAttribute('data-q-num', q);
+    td.appendChild(btn);
+  });
+}
+
+// Watch for answer changes to refresh sidebar dots
+function watchAnswers() {
+  document.querySelectorAll('.q-input').forEach(inp => {
+    inp.addEventListener('input', () => refreshSidebarNum(parseInt(inp.dataset.q)));
+  });
+  document.querySelectorAll('input[type=radio]').forEach(r => {
+    r.addEventListener('change', () => refreshSidebarNum(parseInt(r.dataset.q)));
+  });
+  document.querySelectorAll('.q-opt, .q-mcq-opt').forEach(lbl => {
+    lbl.addEventListener('click', () => {
+      const q = parseInt(lbl.dataset.q);
+      setTimeout(() => refreshSidebarNum(q), 50);
+    });
+  });
+  document.querySelectorAll('.heading-select').forEach(sel => {
+    sel.addEventListener('change', () => refreshSidebarNum(parseInt(sel.dataset.q)));
+  });
+}
+
+// ===== TABS =====
+function switchTab(n) {
+  document.querySelectorAll('.tab-pane').forEach((p, i) => {
+    p.classList.toggle('active', i + 1 === n);
+  });
+  document.querySelectorAll('.tab-btn').forEach((b, i) => {
+    b.classList.toggle('active', i + 1 === n);
+  });
+  // Scroll both cols to top when switching
+  const activePane = document.getElementById('tab' + n);
+  if (activePane) {
+    activePane.querySelectorAll('.passage-col, .question-col').forEach(c => c.scrollTop = 0);
+  }
+}
+
+// ===== HIGHLIGHT FEATURE =====
+const hlToolbar = document.getElementById('hlToolbar');
+let hlRange = null;
+
+document.addEventListener('mouseup', (e) => {
+  const sel = window.getSelection();
+  if (!sel || sel.isCollapsed || sel.rangeCount === 0) {
+    hlToolbar.style.display = 'none';
+    return;
+  }
+  const range = sel.getRangeAt(0);
+  // Only highlight within any passage column
+  const activePCol = document.querySelector('.tab-pane.active .passage-col');
+  if (!activePCol || !activePCol.contains(range.commonAncestorContainer)) {
+    hlToolbar.style.display = 'none';
+    return;
+  }
+  hlRange = range.cloneRange();
+  const rect = range.getBoundingClientRect();
+  hlToolbar.style.display = 'block';
+  hlToolbar.style.left = (rect.left + rect.width / 2 - 40) + 'px';
+  hlToolbar.style.top = (rect.top + window.scrollY - 38) + 'px';
+});
+
+hlToolbar.addEventListener('mousedown', (e) => {
+  e.preventDefault();
+  if (!hlRange) return;
+  try {
+    const mark = document.createElement('mark');
+    mark.className = 'hl';
+    mark.title = 'Click để bỏ highlight';
+    hlRange.surroundContents(mark);
+    mark.addEventListener('click', () => {
+      const parent = mark.parentNode;
+      while (mark.firstChild) parent.insertBefore(mark.firstChild, mark);
+      parent.removeChild(mark);
+    });
+  } catch(err) {
+    // cross-node selection — partial support
+  }
+  window.getSelection().removeAllRanges();
+  hlToolbar.style.display = 'none';
+  hlRange = null;
+});
+
+document.addEventListener('mousedown', (e) => {
+  if (e.target !== hlToolbar) hlToolbar.style.display = 'none';
+});
+</script>
+</body>
+</html>
